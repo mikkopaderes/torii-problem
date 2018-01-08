@@ -35,11 +35,15 @@ module('Integration | Component | foo bar', function(hooks) {
     // the same thing but that one works.
     run(() => store.findRecord('user', '1234').catch((error) => {}));
 
+    // Changing this to something like service:foo makes it work so this lead
+    // me to believe that this is a torii thing. Also changing
+    // torii.sessionServiceName in config/environment.js to something else
+    // other than 'session' makes it work too.
     this.owner.register('service:session', Service.extend({ hello: '456' }));
 
     const session = this.owner.lookup('service:session');
 
-    console.log(this.get('session.hello'));
+    console.log(session.get('hello'));
 
     assert.ok(true);
   });
